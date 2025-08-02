@@ -5,7 +5,7 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const accessToken = localStorage.getItem("token");
   if (token && !config.url.includes("/api/auth/")) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -14,7 +14,7 @@ api.interceptors.request.use((config) => {
 let isRefreshing = false;
 let failedQueue = [];
 
-const processQueue = (error, token = null) => {
+const processQueue = (error, accessToken = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
